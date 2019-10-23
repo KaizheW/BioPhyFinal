@@ -5,12 +5,12 @@
 %% ===== Initialization ============================
 % General parameter
 global N L eps;
-N = 7; % Number of Particles
+N = 15; % Number of Particles
 L = 10; % Size of the Domain
-eps = 10; % coefficient in Lennard-Jones potential
-beta = 1; % 1/kT
-step_length = 0.1; % MC step moving scale
-nsteps = 3000; 
+eps = 1; % coefficient in Lennard-Jones potential
+beta = 100; % 1/kT
+step_length = 0.5; % MC step moving scale
+nsteps = 10000000; 
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -19,9 +19,9 @@ nsteps = 3000;
 
 % Generate a chain
 LB = randi([0,1],N,1); % put a label (A, B, etc.) to each particle.
-D_range = [1, 1];
+D_range = [0.5, 0.5];
 D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1);
-K = 1*ones(N-1,1); % Spring constant between neighboring particles.
+K = 300*ones(N-1,1); % Spring constant between neighboring particles.
 % X = gausschain(D);
 X = straightchain(D);
 % plot(X(:,1), X(:,2))
@@ -33,30 +33,33 @@ energy(1) = potential(X,D,K);
 
 %% MC Loop
 for k = 1:nsteps
-    if mod(k,1)==0
+    if mod(k,100000)==0
         disp(k);
     end
     u_init = energy(k);
-    dx = step_length.*randn(1,2);
+    dX = step_length.*(2.*rand(1,2)-[1 1]);
     ind = randi(N);
-    X(ind, :) = X(ind, :) + dx;
+    X(ind, :) = X(ind, :) + dX;
     u_final = potential(X,D,K);
     du = u_final - u_init;
     if exp(-beta*du) > rand
-        X(ind,:) = mod(X(ind, :), L);
+%         X(ind,:) = mod(X(ind, :), L);
         energy(k+1) = u_final;
     else
-        X(ind,:) = X(ind, :) - dx;
+        X(ind,:) = X(ind, :) - dX;
         energy(k+1) = u_init;
     end
     
 %     Plot
-    plot(X(:,1), X(:,2),'-o');
-    axis([0 L 0 L]);
-    drawnow;
+    if mod(k,100000)==0
+        plot(X(:,1), X(:,2),'-o');
+        axis([0 L 0 L]);
+        drawnow;
+    end
     
 end
-
+figure
+plot(energy)
 %% Plot the hist of Force distribution
 % nbins = 1000; % hist plot number of bins
 % fig = figure('Position', [0 0 500 500]);
