@@ -5,12 +5,12 @@
 %% ===== Initialization ============================
 % General parameter
 global N L eps;
-N = 10; % Number of Particles
+N = 7; % Number of Particles
 L = 10; % Size of the Domain
 eps = 1; % coefficient in Lennard-Jones potential
-beta = 1000; % 1/kT
-step_length = 1; % MC step moving scale
-nsteps = 500000; 
+beta = 100; % 1/kT
+step_length = 0.5; % MC step moving scale
+nsteps = 1000000; 
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
