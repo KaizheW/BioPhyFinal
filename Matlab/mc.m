@@ -5,12 +5,12 @@
 %% ===== Initialization ============================
 % General parameter
 global N L eps;
-N = 7; % Number of Particles
+N = 20; % Number of Particles
 L = 10; % Size of the Domain
 eps = 1; % coefficient in Lennard-Jones potential
-beta = 100; % 1/kT
+beta = 1000; % 1/kT
 step_length = 0.5; % MC step moving scale
-nsteps = 1000000; 
+nsteps = 1000000;
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -22,18 +22,21 @@ LB = randi([0,1],N,1); % put a label (A, B, etc.) to each particle.
 D_range = [0.5, 0.5];
 D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1);
 K = 1*ones(N-1,1); % Spring constant between neighboring particles.
-X = gausschain(D);
-% X = straightchain(D);
+% X = gausschain(D);
+X = straightchain(D);
 % plot(X(:,1), X(:,2))
 % axis([0 L 0 L]);
+figure
+plot(X(:,1), X(:,2),'-o');
+axis([0 L 0 L]);
 
 % MC initialize
 energy = zeros(nsteps+1,1);
 energy(1) = potential(X,D,K);
-
+figure
 %% MC Loop
 for k = 1:nsteps
-    if mod(k,10000)==0
+    if mod(k,1000)==0
         disp(k);
     end
     u_init = energy(k);
@@ -51,7 +54,7 @@ for k = 1:nsteps
     end
     
 %     Plot
-    if mod(k,10000)==0
+    if mod(k,1000)==0
         plot(X(:,1), X(:,2),'-o');
         axis([0 L 0 L]);
         drawnow;

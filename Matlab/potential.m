@@ -17,5 +17,5 @@ for i = 1:N-1
     end
 end
 % disp(u_tot)
-u_tot = u_tot + 0.5*sum(K.*(sqrt((X(2:end,1)-X(1:end-1,1)).^2 + (X(2:end,2)-X(1:end-1,2)).^2)-2*(D(1:end-1)+D(2:end))/2).^2);
+u_tot = u_tot + 0.5*sum(K.*(sqrt((X(2:end,1)-X(1:end-1,1)).^2 + (X(2:end,2)-X(1:end-1,2)).^2)-1.5*(D(1:end-1)+D(2:end))/2).^2);
 % disp(u_tot)
