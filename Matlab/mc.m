@@ -4,16 +4,17 @@
 
 %% ===== Initialization ============================
 % General parameter
-global N L eps psize KS;
-N = 30; % Number of Particles
+global N L eps psize KS F;
+N = 6; % Number of Particles
 L = 10; % Size of the Domain
 psize = 0.5; % Particle size, assume the same
 eps = 1; % coefficient in Lennard-Jones potential
-KS = 100; % Spring strength
-beta = 1000; % 1/kT
+KS = 300; % Spring strength
+F = 5; % Force applied to two ends
+beta = 100; % 1/kT
 step_length = 0.5; % MC step moving scale
-step_maxnp = 3; % number of particles that moves each step
-nsteps = 10000000;
+step_maxnp = 2; % number of particles that moves each step
+nsteps = 1000000;
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -36,7 +37,7 @@ axis([-L/2 L/2 -L/2 L/2]);
 
 % MC initialize
 energy = zeros(nsteps+1,1);
-energy(1) = potential(X,D,K);
+energy(1) = forcepotential(X,D,K);
 % figure
 %% MC Loop
 for k = 1:nsteps
@@ -50,7 +51,7 @@ for k = 1:nsteps
     ind = randperm(N,step_np);
     X(ind, :) = X(ind, :) + dX;
     
-    u_final = potential(X,D,K);
+    u_final = forcepotential(X,D,K);
     du = u_final - u_init;
     if exp(-beta*du) > rand
 %         X(ind,:) = mod(X(ind, :), L);
