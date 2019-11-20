@@ -1,5 +1,5 @@
-function u_tot = potential(X,D,K)
-global N L eps
+function u_tot = potential(N,X,D,K)
+global eps
 u_tot = 0;
 for i = 1:N-1
     for j = i+1:N

@@ -1,8 +1,7 @@
-function trajectory = self_avoiding_walk
+function trajectory = self_avoiding_walk(N)
 
 % step_num = 20;
 % walk_num = 10;
-global N
 step_num = N-1;
 walk_num = N;
 

@@ -2,16 +2,19 @@
 % Biophysics, Professor Jasna Brujic
 % Kaizhe Wang
 
-%% ===== Initialization ============================
+%% Funciton MC
+function X = mc(N,F,beta)
+
+% ===== Initialization ============================
 % General parameter
-global N L eps psize KS F;
-N = 6; % Number of Particles
-L = 10; % Size of the Domain
-psize = 0.5; % Particle size, assume the same
-eps = 1; % coefficient in Lennard-Jones potential
-KS = 300; % Spring strength
-F = 5; % Force applied to two ends
-beta = 100; % 1/kT
+global L psize KS;
+% N = 5; % Number of Particles
+% L = 5; % Size of the Domain
+% psize = 0.5; % Particle size, assume the same
+% eps = 1; % coefficient in Lennard-Jones potential
+% KS = 300; % Spring strength
+% F = 0; % Force applied to two ends
+% beta = 10; % 1/kT
 step_length = 0.5; % MC step moving scale
 step_maxnp = 2; % number of particles that moves each step
 nsteps = 1000000;
@@ -22,28 +25,29 @@ nsteps = 1000000;
 % D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1); % Size of particles
 
 % Generate a chain
-LB = randi([0,1],N,1); % put a label (A, B, etc.) to each particle.
+% LB = randi([0,1],N,1); % put a label (A, B, etc.) to each particle.
 % D_range = [0.5, 0.5];
 % D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1);
 D = psize * ones(N,1);
 K = KS * ones(N-1,1); % Spring constant between neighboring particles.
-X = psize * self_avoiding_walk; % self-avoiding random walk chain.
+X = psize * self_avoiding_walk(N); % self-avoiding random walk chain.
 % X = straightchain(D);
 % plot(X(:,1), X(:,2))
 % axis([0 L 0 L]);
-figure
-plot(X(:,1), X(:,2),'-o');
-axis([-L/2 L/2 -L/2 L/2]);
+
+% figure
+% plot(X(:,1), X(:,2),'-o');
+% axis([-L/2 L/2 -L/2 L/2]);
 
 % MC initialize
 energy = zeros(nsteps+1,1);
-energy(1) = forcepotential(X,D,K);
+energy(1) = forcepotential(N,X,D,K,F);
 % figure
 %% MC Loop
 for k = 1:nsteps
-    if mod(k,10000)==0
-        disp(k);
-    end
+%     if mod(k,10000)==0
+%         disp(k);
+%     end
     u_init = energy(k);
     
     step_np = randi(step_maxnp);
@@ -51,7 +55,7 @@ for k = 1:nsteps
     ind = randperm(N,step_np);
     X(ind, :) = X(ind, :) + dX;
     
-    u_final = forcepotential(X,D,K);
+    u_final = forcepotential(N,X,D,K,F);
     du = u_final - u_init;
     if exp(-beta*du) > rand
 %         X(ind,:) = mod(X(ind, :), L);
@@ -62,15 +66,19 @@ for k = 1:nsteps
     end
     
 %     Plot
-    if mod(k,10000)==0
-        plot(X(:,1), X(:,2),'-o');
-        axis([-L/2 L/2 -L/2 L/2]);
-        drawnow;
-    end
+%     if mod(k,10000)==0
+%         plot(X(:,1), X(:,2),'-o');
+%         axis([-L/2 L/2 -L/2 L/2]);
+%         drawnow;
+%     end
     
 end
+
+% figure
+% plot(energy)
 figure
-plot(energy)
+viscircles(X, D/2, 'Color', 'k');
+close all
 
 %% Plot the hist of Force distribution
 % nbins = 1000; % hist plot number of bins

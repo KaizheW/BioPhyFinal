@@ -1,5 +1,5 @@
-function u_tot = forcepotential(X,D,K)
-global N L eps F
+function u_tot = forcepotential(N,X,D,K,F)
+global eps
 u_tot = 0;
 for i = 1:N-1
     for j = i+1:N
