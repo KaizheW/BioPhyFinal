@@ -13,7 +13,7 @@ for i = 1:N-1
 %         end
         dis = sqrt(dx^2 + dy^2);
         sig = 0.5*(D(i)+D(j))/1.122;
-        u_tot = u_tot + 4*eps*(LB(i)*LB(j)+1)*((sig/dis)^12-(sig/dis)^6);
+        u_tot = u_tot + 4*eps*((sig/dis)^12-(sig/dis)^6) + LB(i)*LB(j)*(D(i)+D(j))/dis;
     end
 end
 % disp(u_tot)
