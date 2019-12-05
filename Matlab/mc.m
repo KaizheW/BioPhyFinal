@@ -15,9 +15,9 @@ eps = 1; % coefficient in Lennard-Jones potential
 KS = 300; % Spring strength
 F = 0; % Force applied to two ends
 beta = 1000; % 1/kT
-step_length = 1; % MC step moving scale
-step_maxnp = 2; % number of particles that moves each step
-nsteps = 1000000;
+step_length = 0.2*psize; % MC step moving scale
+step_maxnp = 3; % number of particles that moves each step
+nsteps = 3000000;
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -74,7 +74,7 @@ for k = 1:nsteps
     
     
 %     ===Plot===
-    if mod(k,10000)==0
+    if mod(k,30000)==0
         plot(X(:,1), X(:,2),'-o');
         axis([-L/2 L/2 -L/2 L/2]);
         drawnow;
