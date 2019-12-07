@@ -1,4 +1,4 @@
-function trajectory = self_avoiding_walk(N)
+function trajectory = self_avoiding_walk3(N)
 
 % step_num = 20;
 % walk_num = 10;
@@ -9,18 +9,21 @@ for walk = 1 : walk_num
 
     x = 0;   
     y = 0;
+    z = 0;
 
-    trajectory = zeros ( step_num + 1, 2 );  % the origin.
-    trajectory(1,1:2) = [ x, y ];
+    trajectory = zeros ( N, 3 );  % the origin.
+    trajectory(1,1:3) = [ x, y, z ];
 
     step_length = step_num;
 
     for step = 1 : step_num    
 
-        neighbors = [ x + 1.0, y; ...
-                    x - 1.0, y; ...
-                    x,       y + 1.0; ...
-                    x,       y - 1.0 ];
+        neighbors = [x + 1, y, z; ...
+                    x - 1, y, z; ...
+                    x, y + 1, z; ...
+                    x, y - 1, z; ...
+                    x, y, z + 1; ...
+                    x, y, z - 1];
 
         destination = setdiff ( neighbors, trajectory, 'rows' );
 
@@ -34,8 +37,9 @@ for walk = 1 : walk_num
         k = ceil ( nrows * rand ( ) );
         x = destination(k,1);
         y = destination(k,2);
+        z = destination(k,3);
 
-        trajectory(step+1,1:2) = [ x, y ];
+        trajectory(step+1,1:3) = [ x, y, z ];
 
     end
 
@@ -44,4 +48,4 @@ for walk = 1 : walk_num
     end
 
 end
-plot (trajectory(:,1), trajectory(:,2), 'r-', 'LineWidth', 2 );
+plot3(trajectory(:,1), trajectory(:,2), trajectory(:,3), 'r-', 'LineWidth', 2 );
