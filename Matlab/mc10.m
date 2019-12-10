@@ -8,7 +8,7 @@
 % ===== Initialization ============================
 % General parameter
 global L psize KS eps;
-N = 7; % Number of Particles
+N = 10; % Number of Particles
 L = 5; % Size of the Domain
 psize = 0.5; % Particle size, assume the same
 eps = 1; % coefficient in Lennard-Jones potential
@@ -17,7 +17,7 @@ F = 0; % Force applied to two ends
 beta1 = 5; % 1/kT, high temperature
 beta2 = 20; % low temperature
 step_length = 0.2*psize; % MC step moving scale
-step_maxnp = 1; % number of particles that moves each step
+step_maxnp = 2; % number of particles that moves each step
 nsteps = 10000000;
 t = linspace(0, 10*pi, nsteps)';
 beta = (1+square(t))/2*(beta2-beta1)+beta1;
@@ -28,7 +28,7 @@ beta = (1+square(t))/2*(beta2-beta1)+beta1;
 % D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1); % Size of particles
 
 % Generate a chain
-LB = [0;1;0;1;0;1;0]; % put a label (A, B, etc.) to each particle.
+LB = [0;1;0;1;0;1;0;1;0;1]; % put a label (A, B, etc.) to each particle.
 % D_range = [0.5, 0.5];
 % D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1);
 D = psize * ones(N,1);
@@ -45,8 +45,8 @@ axis([-L/2 L/2 -L/2 L/2]);
 % MC initialize
 energy = zeros(nsteps+1,1);
 energy(1) = potential(N,X,D,K,LB);
-state = zeros(1);
-statecount = 2;
+% state = zeros(1);
+% statecount = 2;
 % figure
 %% MC Loop
 for k = 1:nsteps
@@ -83,8 +83,8 @@ for k = 1:nsteps
         plot(X(:,1), X(:,2),'-o');
         axis([-L/2 L/2 -L/2 L/2]);
         drawnow;
-        state(statecount) = state_identify(N,X);
-        statecount = statecount + 1;
+%         state(statecount) = state_identify(N,X);
+%         statecount = statecount + 1;
     end
     
 end
@@ -100,6 +100,8 @@ hold on
 viscircles(X(2,:), D(2)/2, 'Color','r');
 viscircles(X(4,:), D(4)/2, 'Color','r');
 viscircles(X(6,:), D(6)/2, 'Color','r');
+viscircles(X(8,:), D(6)/2, 'Color','r');
+viscircles(X(10,:), D(6)/2, 'Color','r');
 plot(X(:,1), X(:,2),'k-')
 axis equal
 % close all

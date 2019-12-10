@@ -44,4 +44,4 @@ for walk = 1 : walk_num
     end
 
 end
-plot (trajectory(:,1), trajectory(:,2), 'r-', 'LineWidth', 2 );
+% plot (trajectory(:,1), trajectory(:,2), 'r-', 'LineWidth', 2 );

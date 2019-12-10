@@ -48,4 +48,4 @@ for walk = 1 : walk_num
     end
 
 end
-plot3(trajectory(:,1), trajectory(:,2), trajectory(:,3), 'r-', 'LineWidth', 2 );
+% plot3(trajectory(:,1), trajectory(:,2), trajectory(:,3), 'r-', 'LineWidth', 2 );
