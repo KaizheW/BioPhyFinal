@@ -3,7 +3,7 @@
 % Kaizhe Wang
 
 %% Funciton MC
-% function [ft, fe] = mc(N,F,beta)
+function [state, energy] = mc(beta0, nsteps)
 
 % ===== Initialization ============================
 % General parameter
@@ -12,13 +12,15 @@ N = 7; % Number of Particles
 L = 5; % Size of the Domain
 psize = 0.5; % Particle size, assume the same
 eps = 1; % coefficient in Lennard-Jones potential
-KS = 100; % Spring strength
+KS = 300; % Spring strength
 F = 0; % Force applied to two ends
-beta1 = 5; % 1/kT, high temperature
-beta2 = 20; % low temperature
-step_length = 0.2*psize; % MC step moving scale
+
+step_length = 0.1*psize; % MC step moving scale
 step_maxnp = 1; % number of particles that moves each step
-nsteps = 10000000;
+% nsteps = 1000000;
+
+beta1 = beta0; % 1/kT, high temperature
+beta2 = beta0; % low temperature
 t = linspace(0, 10*pi, nsteps)';
 beta = (1+square(t))/2*(beta2-beta1)+beta1;
 
@@ -38,15 +40,15 @@ X = straightchain(N);
 % plot(X(:,1), X(:,2))
 % axis([0 L 0 L]);
 
-figure
-plot(X(:,1), X(:,2),'-o');
-axis([-L/2 L/2 -L/2 L/2]);
+% figure
+% plot(X(:,1), X(:,2),'-o');
+% axis([-L/2 L/2 -L/2 L/2]);
 
 % MC initialize
-energy = zeros(nsteps+1,1);
+energy = zeros(nsteps+1, 1);
 energy(1) = potential(N,X,D,K,LB);
-state = zeros(1);
-statecount = 2;
+state = zeros(nsteps+1, 1);
+% statecount = 2;
 % figure
 %% MC Loop
 for k = 1:nsteps
@@ -77,31 +79,34 @@ for k = 1:nsteps
         energy(k+1) = u_init;
     end
     
+    if energy(k+1) < -11.25
+        state(k+1) = state_identify(N,X);
+    end
     
 %     ===Plot===
-    if mod(k,10000)==0
-        plot(X(:,1), X(:,2),'-o');
-        axis([-L/2 L/2 -L/2 L/2]);
-        drawnow;
-        state(statecount) = state_identify(N,X);
-        statecount = statecount + 1;
-    end
+%     if mod(k,10000)==0
+%         plot(X(:,1), X(:,2),'-o');
+%         axis([-L/2 L/2 -L/2 L/2]);
+%         drawnow;
+% %         state(statecount) = state_identify(N,X);
+% %         statecount = statecount + 1;
+%     end
     
 end
 
 % ft = k;
 % fe = energy(end);
 
-figure
-plot(energy)
-figure
-viscircles(X, D/2, 'Color','g');
-hold on
-viscircles(X(2,:), D(2)/2, 'Color','r');
-viscircles(X(4,:), D(4)/2, 'Color','r');
-viscircles(X(6,:), D(6)/2, 'Color','r');
-plot(X(:,1), X(:,2),'k-')
-axis equal
+% figure
+% plot(energy)
+% figure
+% viscircles(X, D/2, 'Color','g');
+% hold on
+% viscircles(X(2,:), D(2)/2, 'Color','r');
+% viscircles(X(4,:), D(4)/2, 'Color','r');
+% viscircles(X(6,:), D(6)/2, 'Color','r');
+% plot(X(:,1), X(:,2),'k-')
+% axis equal
 % close all
 
 % state = state_identify(N,X);
