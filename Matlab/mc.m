@@ -35,8 +35,8 @@ LB = [0;1;0;1;0;1;0]; % put a label (A, B, etc.) to each particle.
 % D = rand(N,1).*(D_range(2)-D_range(1)) + D_range(1);
 D = psize * ones(N,1);
 K = KS * ones(N-1,1); % Spring constant between neighboring particles.
-% X = psize * self_avoiding_walk(N); % self-avoiding random walk chain.
-X = straightchain(N);
+X = psize * self_avoiding_walk(N); % self-avoiding random walk chain.
+% X = straightchain(N);
 % plot(X(:,1), X(:,2))
 % axis([0 L 0 L]);
 

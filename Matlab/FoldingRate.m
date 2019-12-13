@@ -17,5 +17,5 @@ p2 = sum(allstate==2, 2)/num;
 % plot(p0, 'k.')
 % plot(p1, 'r.')
 % plot(p2, 'b.')
-filename = ['beta_',num2str(beta),'_t_',num2str(num)];
+filename = ['rc_beta_',num2str(beta),'_num_',num2str(num),'_t_',num2str(nsteps)];
 save(filename)
