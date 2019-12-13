@@ -1,5 +1,5 @@
-nsteps = 1000000;
-num = 50;
+nsteps = 100000;
+num = 2;
 beta = 6;
 allstate = zeros(nsteps+1, num);
 
@@ -7,17 +7,14 @@ for i = 1:num
     [allstate(:,i), ~] = mc(beta, nsteps);
 end
 
-p0 = zeros(nsteps, 1);
-p1 = zeros(nsteps, 2);
-p2 = zeros(nsteps, 3);
-for i = 1:nsteps
-    p0(i) = sum(allstate(i,:)==0)/num;
-    p1(i) = sum(allstate(i,:)==1)/num;
-    p2(i) = sum(allstate(i,:)==2)/num;
-end
+p0 = sum(allstate==0, 2)/num;
+p1 = sum(allstate==1, 2)/num;
+p2 = sum(allstate==2, 2)/num;
 
-figure
-hold on
-plot(p0, 'k.')
-plot(p1, 'r.')
-plot(p2, 'b.')
+% figure
+% hold on
+% plot(p0, 'k.')
+% plot(p1, 'r.')
+% plot(p2, 'b.')
+filename = ['beta_',num2str(beta),'_t_',num2str(num)];
+save(filename)
