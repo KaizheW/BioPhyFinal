@@ -13,16 +13,17 @@ L = 5; % Size of the Domain
 psize = 0.5; % Particle size, assume the same
 eps = 1; % coefficient in Lennard-Jones potential
 KS = 300; % Spring strength
-F = 0; % Force applied to two ends
+% F = 0; % Force applied to two ends
 
-step_length = 0.1*psize; % MC step moving scale
-step_maxnp = 1; % number of particles that moves each step
+% beta1 = beta0; % 1/kT, high temperature
+% beta2 = beta0; % low temperature
+% t = linspace(0, 10*pi, nsteps)';
+% beta = (1+square(t))/2*(beta2-beta1)+beta1;
+% step_length = 0.2*psize./sqrt(beta); % MC step moving scale
+% step_maxnp = 1; % number of particles that moves each step
 % nsteps = 1000000;
-
-beta1 = beta0; % 1/kT, high temperature
-beta2 = beta0; % low temperature
-t = linspace(0, 10*pi, nsteps)';
-beta = (1+square(t))/2*(beta2-beta1)+beta1;
+% clearvars t
+beta = beta0;
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -57,9 +58,9 @@ for k = 1:nsteps
 %     end
     u_init = energy(k);
     
-    step_np = randi(step_maxnp);
-    dX = step_length.*(2.*rand(step_np,2)-repmat([1 1], step_np, 1));
-    ind = randperm(N,step_np);
+%     step_np = randi(step_maxnp);
+    dX = 0.2*psize/sqrt(beta).*(2.*rand(1,2)-[1 1]);
+    ind = randi(N);
     X(ind, :) = X(ind, :) + dX;
     
     u_final = potential(N,X,D,K,LB);
@@ -71,7 +72,7 @@ for k = 1:nsteps
 %         break
 %     end
     
-    if exp(-beta(k)*du) > rand
+    if exp(-beta*du) > rand
 %         X(ind,:) = mod(X(ind, :), L);
         energy(k+1) = u_final;
     else

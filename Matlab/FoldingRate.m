@@ -1,6 +1,6 @@
-nsteps = 300000;
-num = 10000;
-beta = 6;
+nsteps = 100000;
+num = 100;
+beta = 10;
 allstate = zeros(nsteps+1, num);
 
 parfor i = 1:num
