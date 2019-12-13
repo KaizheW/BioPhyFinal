@@ -52,9 +52,9 @@ state = zeros(nsteps+1, 1);
 % figure
 %% MC Loop
 for k = 1:nsteps
-    if mod(k,10000)==0
-        disp(k);
-    end
+%     if mod(k,10000)==0
+%         disp(k);
+%     end
     u_init = energy(k);
     
     step_np = randi(step_maxnp);

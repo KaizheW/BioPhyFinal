@@ -1,9 +1,10 @@
-nsteps = 100000;
-num = 2;
+nsteps = 300000;
+num = 10000;
 beta = 6;
 allstate = zeros(nsteps+1, num);
 
-for i = 1:num
+parfor i = 1:num
+    disp(i)
     [allstate(:,i), ~] = mc(beta, nsteps);
 end
 
