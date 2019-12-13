@@ -3,7 +3,7 @@
 % Kaizhe Wang
 
 %% Funciton MC
-function [state, energy] = mc(beta0, nsteps)
+function [state, energy] = mc(beta1, beta2, nsteps)
 
 % ===== Initialization ============================
 % General parameter
@@ -23,7 +23,7 @@ KS = 300; % Spring strength
 % step_maxnp = 1; % number of particles that moves each step
 % nsteps = 1000000;
 % clearvars t
-beta = beta0;
+% beta = beta0;
 
 % Generate randomly distributed particles
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -57,6 +57,7 @@ for k = 1:nsteps
 %         disp(k);
 %     end
     u_init = energy(k);
+    beta = beta1 + (beta2 - beta1)/nsteps*k;
     
 %     step_np = randi(step_maxnp);
     dX = 0.2*psize/sqrt(beta).*(2.*rand(1,2)-[1 1]);
