@@ -1,7 +1,7 @@
-nsteps = 1000000;
-num = 1000;
+nsteps = 100000;
+num = 10;
 beta1 = 1;
-beta2 = 1;
+beta2 = 10;
 allstate = zeros(nsteps+1, num);
 
 parfor i = 1:num
@@ -103,5 +103,5 @@ p2 = (sum(allstate==2, 2)/num + p2)/10;
 % plot(p1, 'r.')
 % plot(p2, 'b.')
 clearvars allstate
-filename = ['r_beta',num2str(beta1),'_',num2str(beta2)];
-save(filename,'-v7.3')
+filename = ['r_beta',num2str(beta1),'_',num2str(beta2),'_T_',num2str(nsteps)];
+save(filename)
