@@ -59,7 +59,8 @@ for k = 1:nsteps
 %         disp(k);
 %     end
     u_init = energy(k);
-    beta = 1/(1/beta1 + (1/beta2 - 1/beta1)/nsteps*k);
+%     beta = 1/(1/beta1 + (1/beta2 - 1/beta1)/nsteps*k);
+    beta = beta1 + (beta2 - beta1)/nsteps*k;
     
 %     step_np = randi(step_maxnp);
     dX = 0.2*psize/sqrt(beta).*(2.*rand(1,2)-[1 1]);
