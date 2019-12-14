@@ -16,7 +16,7 @@ KS = 300; % Spring strength
 % F = 0; % Force applied to two ends
 
 % === temperature function ===
-% beta1 = 20; % 1/kT
+% beta1 = 10; % 1/kT
 % beta2 = 20;
 % nsteps = 100000;
 
@@ -73,7 +73,7 @@ for k = 1:nsteps
         energy(k+1) = u_init;
     end
     
-    if energy(k+1) < -14.75
+    if energy(k+1) < -14.3
         state(k+1) = state_identify3(N,X);
     end
     
