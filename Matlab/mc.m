@@ -3,7 +3,7 @@
 % Kaizhe Wang
 
 %% Funciton MC
-function [state, energy] = mc(beta1, beta2, nsteps)
+% function [state, energy] = mc(beta1, beta2, nsteps)
 
 % ===== Initialization ============================
 % === General parameter ===
@@ -16,15 +16,10 @@ KS = 300; % Spring strength
 % F = 0; % Force applied to two ends
 
 % === temperature function ===
-% beta1 = beta0; % 1/kT, high temperature
-% beta2 = beta0; % low temperature
-% t = linspace(0, 10*pi, nsteps)';
-% beta = (1+square(t))/2*(beta2-beta1)+beta1;
-% step_length = 0.2*psize./sqrt(beta); % MC step moving scale
-% step_maxnp = 1; % number of particles that moves each step
-% nsteps = 1000000;
-% clearvars t
-% beta = beta0;
+beta1 = 10; % 1/kT, high temperature
+beta2 = 10; % low temperature
+nsteps = 1000000;
+
 
 % === Generate randomly distributed particles ===
 % D_range = [1, 1]; % Diameter of each particle, range
@@ -43,9 +38,9 @@ X = psize * self_avoiding_walk(N); % self-avoiding random walk chain.
 % axis([0 L 0 L]);
 
 % === Initial Plot ===
-% figure
-% plot(X(:,1), X(:,2),'-o');
-% axis([-L/2 L/2 -L/2 L/2]);
+figure
+plot(X(:,1), X(:,2),'-o');
+axis([-L/2 L/2 -L/2 L/2]);
 
 % === MC initialize ===
 energy = zeros(nsteps+1, 1);
@@ -55,9 +50,9 @@ state = zeros(nsteps+1, 1);
 % figure
 %% MC Loop
 for k = 1:nsteps
-%     if mod(k,10000)==0
-%         disp(k);
-%     end
+    if mod(k,10000)==0
+        disp(k);
+    end
     u_init = energy(k);
 %     beta = 1/(1/beta1 + (1/beta2 - 1/beta1)/nsteps*k);
     beta = beta1 + (beta2 - beta1)/nsteps*k;
@@ -85,33 +80,33 @@ for k = 1:nsteps
     end
     
     if energy(k+1) < -11.25
-        state(k+1) = state_identify(N,X);
+%         state(k+1) = state_identify(N,X);
     end
     
 %     ===Plot===
-%     if mod(k,10000)==0
-%         plot(X(:,1), X(:,2),'-o');
-%         axis([-L/2 L/2 -L/2 L/2]);
-%         drawnow;
-% %         state(statecount) = state_identify(N,X);
-% %         statecount = statecount + 1;
-%     end
+    if mod(k,10000)==0
+        plot(X(:,1), X(:,2),'-o');
+        axis([-L/2 L/2 -L/2 L/2]);
+        drawnow;
+%         state(statecount) = state_identify(N,X);
+%         statecount = statecount + 1;
+    end
     
 end
 
 % ft = k;
 % fe = energy(end);
 
-% figure
-% plot(energy)
-% figure
-% viscircles(X, D/2, 'Color','g');
-% hold on
-% viscircles(X(2,:), D(2)/2, 'Color','r');
-% viscircles(X(4,:), D(4)/2, 'Color','r');
-% viscircles(X(6,:), D(6)/2, 'Color','r');
-% plot(X(:,1), X(:,2),'k-')
-% axis equal
+figure
+plot(energy)
+figure
+viscircles(X, D/2, 'Color','g');
+hold on
+viscircles(X(2,:), D(2)/2, 'Color','r');
+viscircles(X(4,:), D(4)/2, 'Color','r');
+viscircles(X(6,:), D(6)/2, 'Color','r');
+plot(X(:,1), X(:,2),'k-')
+axis equal
 % close all
 
 % state = state_identify(N,X);

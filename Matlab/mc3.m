@@ -18,7 +18,7 @@ KS = 300; % Spring strength
 % === temperature function ===
 % beta1 = 10; % 1/kT
 % beta2 = 20;
-% nsteps = 100000;
+% nsteps = 500000;
 
 % === Generate randomly distributed particles ===
 % D_range = [1, 1]; % Diameter of each particle, range

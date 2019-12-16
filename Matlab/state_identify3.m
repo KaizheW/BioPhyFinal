@@ -12,9 +12,14 @@ for i = 1:N-1
 end
 
 if count == 15
-    state = 1;
-elseif count == 16
-    state = 2;
+    d1 = norm(X(1,:)-X(2,:)) + norm(X(1,:)-X(4,:)) + norm(X(1,:)-X(6,:));
+    d3 = norm(X(3,:)-X(2,:)) + norm(X(3,:)-X(4,:)) + norm(X(3,:)-X(6,:));
+    d5 = norm(X(5,:)-X(2,:)) + norm(X(5,:)-X(4,:)) + norm(X(5,:)-X(6,:));
+    d7 = norm(X(7,:)-X(2,:)) + norm(X(7,:)-X(4,:)) + norm(X(7,:)-X(6,:));
+    [~, minid] = min([d1 d3 d5 d7]);
+    statearray = [1 2 2 1];
+    state = statearray(minid);
 else
     state = 0;
 end
+
